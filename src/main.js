@@ -1,9 +1,7 @@
-import './index.css';
+import './index.scss';
 import { createApp } from 'vue';
+import withUUID from 'vue-uuid';
 import App from './App.vue';
 
-import AppHeader from '@/components/AppHeader.vue';
-
-const app = createApp(App);
-app.component('AppHeader', AppHeader);
+const app = withUUID(createApp(App));
 app.mount('#app');
