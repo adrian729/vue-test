@@ -9,5 +9,9 @@
     ],
     "profile": {
         "name": "typicode"
-    }
+    },
+    "users": [
+        { "id": "1", "name": "typicode" },
+        { "id": "2", "name": "John", "lastname": "Doe" }
+    ]
 }
