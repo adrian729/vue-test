@@ -1,16 +1,10 @@
 <template>
-    <div class="container">
-        <button
-            className="flex-initial font-bold text-red-800 bg-red-200 p-2 rounded-md"
-            @click="toggleTheme"
-        >
-            Change Mode (Dark/Light)
-        </button>
-        <h1>{{ msg }}</h1>
+    <div>
+        <button @click="toggleTheme">Change Mode (Dark/Light)</button>
         <h3>You've successfully created a project with Vite and Vue 3.</h3>
-        <div class="flex flex-col items-center">
-            <h2 class="text-3xl font-bold underline">Users</h2>
-            <ul class="list-inside list-disc">
+        <div>
+            <h2>Users</h2>
+            <ul>
                 <li v-for="user in data.users" :key="user.id">
                     {{ user.name }}
                 </li>
@@ -27,12 +21,7 @@ const data = reactive({
     users: [],
 });
 
-defineProps({
-    msg: {
-        type: String,
-        required: true,
-    },
-});
+defineProps({});
 
 const setTheme = () => {
     if (!('theme' in localStorage)) {
@@ -43,9 +32,11 @@ const setTheme = () => {
     }
 
     if (localStorage.theme === 'dark') {
+        document.documentElement.classList.remove('light');
         document.documentElement.classList.add('dark');
     } else {
         document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
     }
     console.log(localStorage.theme);
 };
@@ -58,7 +49,7 @@ const toggleTheme = () => {
 
 const loadUsers = () => {
     axios
-        .get('https://jsonplaceholder.typicode.com/users')
+        .get('https://my-json-server.typicode.com/adrian729/vue-test/users')
         .then((response) => {
             data.users = response.data;
         })
