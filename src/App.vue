@@ -1,6 +1,6 @@
 <template>
     <header>
-        <div class="wrapper">
+        <div>
             <AppHeader msg="You did it!" />
         </div>
     </header>
