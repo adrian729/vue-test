@@ -1,45 +1,28 @@
-$font-stack: Helvetica, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-    /* this has to be set to switch between light or dark */
-    color-scheme: light dark;
-
-    --light-bg: ghostwhite;
-    --light-color: darkslategray;
-    --light-code: tomato;
-
-    --dark-bg: darkslategray;
-    --dark-color: ghostwhite;
-    --dark-code: gold;
+@layer base {
+    :root {
+        --primary-color: theme(colors.slate.200);
+        --secondary-color: theme(colors.emerald.700);
+    }
+    :root[data-theme='dark'] {
+        --primary-color: theme(colors.slate.700);
+        --secondary-color: theme(colors.emerald.200);
+    }
+    html,
+    body,
+    #app {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
 }
 
-body {
-    background-color: light-dark(var(--light-bg), var(--dark-bg));
-    color: light-dark(var(--light-color), var(--dark-color));
-    font: 100% $font-stack;
-    margin: 0;
-    padding: 0;
-}
-
-code {
-    color: light-dark(var(--light-code), var(--dark-code));
-}
-
-.light {
-    /* forces light color-scheme */
-    color-scheme: light;
-}
-
-.dark {
-    /* forces dark color-scheme */
-    color-scheme: dark;
-}
-
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0.5rem;
-    padding: 0.25rem;
+@layer components {
+    .btn-gray {
+        @apply bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow;
+    }
 }
