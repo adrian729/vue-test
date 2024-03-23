@@ -1,13 +1,21 @@
 <template>
     <header :class="headerClass">
-        <h3 class="font-bold text-2xl">Vue-test</h3>
+        <div class="text-2xl flex items-center gap-8">
+            <SideBarMenu />
+            <router-link class="w-full" to="/">
+                <h3 class="font-bold text-2xl">Vue-test</h3>
+            </router-link>
+        </div>
         <div id="appHeaderLeft" class="flex gap-4">
             <ul class="flex items-center gap-2">
                 <li>
-                    <FontAwesomeIcon :icon="faLinkedin" />
+                    <FontAwesomeIcon
+                        class="cursor-pointer"
+                        :icon="faLinkedin"
+                    />
                 </li>
                 <li>
-                    <FontAwesomeIcon :icon="faGithub" />
+                    <FontAwesomeIcon class="cursor-pointer" :icon="faGithub" />
                 </li>
             </ul>
             <button :class="themeToggleClass" @click="toggleTheme">
@@ -19,7 +27,9 @@
 </template>
 
 <script setup>
+// -- Imports
 import { ref, computed, onMounted, normalizeClass } from 'vue';
+// -- Fonts
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import {
     faMoon as farMoon,
@@ -29,11 +39,9 @@ import {
     faMoon as fasMoon,
     faSun as fasSun,
 } from '@fortawesome/free-solid-svg-icons';
-// import axios from 'axios';
+// -- Components
+import SideBarMenu from '@/components/SideBarMenu.vue';
 
-// const data = reactive({
-//     users: [],
-// });
 const THEME_DARK = 'dark';
 const THEME_LIGHT = 'light';
 const theme = ref(null);
@@ -67,22 +75,12 @@ const toggleTheme = () => {
     setTheme();
 };
 
-// const loadUsers = () => {
-//     axios
-//         .get('https://my-json-server.typicode.com/adrian729/vue-test/users')
-//         .then((response) => {
-//             data.users = response.data;
-//         })
-//         .catch((error) => console.error(error));
-// };
-// loadUsers();
-
 // -- Style Classes
 const headerClass = computed(() => {
     return normalizeClass([
         'sticky top-0',
         'bg-secondary text-primary',
-        'min-h-10 h-fit px-4 py-2',
+        'min-h-10 h-fit px-5 py-4',
         'flex justify-between items-center',
     ]);
 });
