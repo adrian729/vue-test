@@ -22,7 +22,18 @@
 }
 
 @layer components {
+    .btn {
+        @apply font-semibold py-1 px-2 rounded-md border border-gray-400 shadow-lg cursor-pointer;
+    }
     .btn-gray {
-        @apply bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow;
+        @extend .btn;
+        @apply bg-white text-gray-800 border;
+        @apply hover:bg-gray-100;
+    }
+
+    .btn-red {
+        @extend .btn;
+        @apply bg-red-500 text-gray-800 border border-red-800;
+        @apply hover:bg-red-300;
     }
 }
