@@ -61,10 +61,10 @@ import { faDownload, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faSquare, faCircle } from '@fortawesome/free-regular-svg-icons';
 // -- Components
 import DividerComponent from '@/components/DividerComponent.vue';
-import PaintCanvasRectangles from './rectangles/PaintCanvasRectangles.vue';
-import PaintCanvasCircles from './circles/PaintCanvasCircles.vue';
-import DownloadCanvasDialog from './DownloadCanvasDialog.vue';
-import UploadCanvasDialog from './UploadCanvasDialog.vue';
+import PaintCanvasRectangles from './components/rectangles/PaintCanvasRectangles.vue';
+import PaintCanvasCircles from './components/circles/PaintCanvasCircles.vue';
+import DownloadCanvasDialog from './components/DownloadCanvasDialog.vue';
+import UploadCanvasDialog from './components/UploadCanvasDialog.vue';
 
 const canvas_uuid = uuid.v4();
 
