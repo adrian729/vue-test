@@ -27,7 +27,7 @@ const props = defineProps({
         type: Number,
         default: 500,
     },
-    rectanglesData: {
+    data: {
         type: Object,
         default: () => ({
             rectangles: [],
@@ -44,7 +44,7 @@ onMounted(() => {
 });
 
 watch(
-    () => props.rectanglesData,
+    () => props.data,
     () => {
         drawRect();
     },
@@ -62,22 +62,22 @@ const drawRect = () => {
     context.value.fillStyle = 'white';
     context.value.fillRect(0, 0, props.width, props.height);
 
-    if (!props.rectanglesData?.rectangles?.length) {
+    if (!props.data?.rectangles?.length) {
         return;
     }
 
-    const rectangles = props.rectanglesData.rectangles;
-    const gap_x = props.rectanglesData.gap * props.width;
-    const gap_y = props.rectanglesData.gap * props.height;
-    const divisions = props.rectanglesData.divisions;
+    const rectangles = props.data.rectangles;
+    const gap_x = props.data.gap * props.width;
+    const gap_y = props.data.gap * props.height;
+    const divisions = props.data.divisions;
 
     const w_space = props.width - gap_x * (divisions + 1);
     const h_space = props.height - gap_y * (divisions + 1);
     const rect_w = w_space / divisions;
     const rect_h = h_space / divisions;
 
-    const in_gap_x = rect_w * props.rectanglesData.in_gap;
-    const in_gap_y = rect_h * props.rectanglesData.in_gap;
+    const in_gap_x = rect_w * props.data.in_gap;
+    const in_gap_y = rect_h * props.data.in_gap;
 
     // draw rects
     context.value.lineWidth = props.width * 0.01;

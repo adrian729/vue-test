@@ -24,7 +24,7 @@ import DialogComponent from '@/components/DialogComponent.vue';
 const jsonServerUrl = import.meta.env.VITE_JSON_SERVER_URL;
 
 const props = defineProps({
-    rectanglesData: {
+    canvasData: {
         type: Object,
         default: () => ({}),
         required: true,
@@ -36,12 +36,11 @@ const uploadDialog = ref(null);
 defineExpose({ uploadDialog });
 
 const uploadCanvas = () => {
-    const rectangle = {
-        canvasData: props.rectanglesData,
-        type: 'rectangles',
-    };
+    if (!props.canvasData) {
+        return;
+    }
     axios
-        .post(`${jsonServerUrl}/rectangles`, rectangle)
+        .post(`${jsonServerUrl}/${props.canvasData.type}`, props.canvasData)
         .then((response) => {
             console.log('uploadCanvas', response.data);
         })

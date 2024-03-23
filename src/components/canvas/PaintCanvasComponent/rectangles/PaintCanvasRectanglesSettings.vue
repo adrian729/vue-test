@@ -17,6 +17,7 @@
                     step="0.01"
                     :class="rangeInputClass"
                     v-model="squareProbability"
+                    @change="generateRectangles"
                 />
                 <span>1</span>
             </div>
@@ -38,34 +39,30 @@
                     step="0.01"
                     :class="rangeInputClass"
                     v-model="smallSquareProbability"
+                    @change="generateRectangles"
                 />
                 <span>1</span>
             </div>
         </div>
-        <div class="flex justify-between items-center gap-4">
-            <FontAwesomeIcon
-                :icon="faMinus"
-                class="btn"
-                @click="updateDivisions(props.divisions - 1)"
-            />
-            <div>
-                <div class="flex justify-between items-center gap-1">
-                    <span class="font-bold text-base">Divisions:</span>
-                    <span class="min-w-[3ch] text-end">{{
-                        props.divisions
-                    }}</span>
-                </div>
+        <div>
+            <div class="mb-2 text-sm font-medium">
+                <span>Divisions: {{ props.divisions }}</span>
             </div>
-            <FontAwesomeIcon
-                :icon="faPlus"
-                class="btn"
-                @click="updateDivisions(props.divisions + 1)"
-            />
-        </div>
-        <div class="flex justify-center">
-            <button class="btn w-fit" @click="generateRectangles">
-                Update Canvas
-            </button>
+            <div class="flex justify-center items-center gap-2">
+                <FontAwesomeIcon
+                    :icon="faMinus"
+                    class="btn"
+                    @click="updateDivisions(props.divisions - 1)"
+                />
+                <button class="btn" @click="generateRectangles">
+                    New Canvas
+                </button>
+                <FontAwesomeIcon
+                    :icon="faPlus"
+                    class="btn"
+                    @click="updateDivisions(props.divisions + 1)"
+                />
+            </div>
         </div>
     </div>
 </template>
