@@ -21,7 +21,20 @@ export default {
             current: 'currentColor',
             primary: 'var(--primary-color)',
             secondary: 'var(--secondary-color)',
+            tertiary: 'var(--tertiary-color)',
+            accent: 'var(--accent-color)',
+            'primary-text': 'var(--font-primary-color)',
+            'secondary-text': 'var(--font-secondary-color)',
+            'tertiary-text': 'var(--font-tertiary-color)',
+            'accent-text': 'var(--font-accent-color)',
         },
     },
     plugins: [],
+    safelist: [
+        {
+            pattern:
+                /^(bg|text|border)-(primary|secondary|tertiary|accent)(-text)?/,
+            variants: ['hover', 'focus'],
+        },
+    ],
 };

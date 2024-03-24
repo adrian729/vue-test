@@ -4,12 +4,24 @@
 
 @layer base {
     :root {
-        --primary-color: theme(colors.slate.200);
-        --secondary-color: theme(colors.emerald.700);
+        --primary-color: theme(colors.pink.200);
+        --font-primary-color: theme(colors.black);
+        --secondary-color: theme(colors.pink.300);
+        --font-secondary-color: theme(colors.black / 90%);
+        --tertiary-color: theme(colors.purple.400);
+        --font-tertiary-color: theme(colors.black / 80%);
+        --accent-color: theme(colors.violet.500);
+        --font-accent-color: theme(colors.white);
     }
     :root[data-theme='dark'] {
-        --primary-color: theme(colors.slate.700);
-        --secondary-color: theme(colors.emerald.200);
+        --primary-color: theme(colors.slate.900);
+        --font-primary-color: theme(colors.white);
+        --secondary-color: theme(colors.slate.800);
+        --font-secondary-color: theme(colors.white / 90%);
+        --tertiary-color: theme(colors.teal.500);
+        --font-tertiary-color: theme(colors.black / 80%);
+        --accent-color: theme(colors.slate.300);
+        --font-accent-color: theme(colors.black);
     }
     html,
     body,
@@ -25,6 +37,7 @@
     .btn {
         @apply font-semibold py-1 px-2 rounded-md border border-gray-400 shadow-lg cursor-pointer;
     }
+
     .btn-gray {
         @extend .btn;
         @apply bg-white text-gray-800 border;
