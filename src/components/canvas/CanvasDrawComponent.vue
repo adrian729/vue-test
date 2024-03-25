@@ -1,6 +1,6 @@
 <template>
     <canvas
-        class="w-full border-2 border-secondary"
+        class="w-full border-2 border-accent"
         :id="id"
         :width="width"
         :height="height"
@@ -32,20 +32,32 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    type: {
+        type: String,
+        default: 'circles',
+    },
 });
 
 onMounted(() => {
     context.value = canvas.value?.getContext('2d');
-    drawCircles();
+    draw();
 });
 
 watch(
-    () => props.data,
+    () => [props.data, props.type],
     () => {
-        drawCircles();
+        draw();
     },
     { deep: true },
 );
+
+const draw = () => {
+    if (props.type === 'circles') {
+        drawCircles();
+    } else {
+        drawRectangles();
+    }
+};
 
 const drawCircles = () => {
     if (!canvas.value || !context.value) {
@@ -131,6 +143,55 @@ const drawCircles = () => {
         context.value.stroke();
 
         context.value.restore();
+    }
+};
+
+const drawRectangles = () => {
+    if (!canvas.value || !context.value) {
+        return;
+    }
+
+    // reset canvas
+    context.value.clearRect(0, 0, props.width, props.height);
+
+    context.value.fillStyle = 'white';
+    context.value.fillRect(0, 0, props.width, props.height);
+
+    if (!props.data?.rectangles?.length) {
+        return;
+    }
+
+    const rectangles = props.data.rectangles;
+    const gap_x = props.data.gap * props.width;
+    const gap_y = props.data.gap * props.height;
+    const divisions = props.data.divisions;
+
+    const w_space = props.width - gap_x * (divisions + 1);
+    const h_space = props.height - gap_y * (divisions + 1);
+    const rect_w = w_space / divisions;
+    const rect_h = h_space / divisions;
+
+    const in_gap_x = rect_w * props.data.in_gap;
+    const in_gap_y = rect_h * props.data.in_gap;
+
+    // draw rects
+    context.value.lineWidth = props.width * 0.01;
+    for (const rect of rectangles) {
+        let x = rect.x * (rect_w + gap_x) + gap_x;
+        let y = rect.y * (rect_h + gap_y) + gap_y;
+        let w = rect_w;
+        let h = rect_h;
+
+        if (rect.is_in) {
+            x += in_gap_x;
+            y += in_gap_y;
+            w -= 2 * in_gap_x;
+            h -= 2 * in_gap_y;
+        }
+
+        context.value.beginPath();
+        context.value.rect(x, y, w, h);
+        context.value.stroke();
     }
 };
 </script>

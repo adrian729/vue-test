@@ -7,10 +7,10 @@
             @click="menuOpen = true"
         />
         <aside :class="asideClass" v-if="menuOpen" @click="menuOpen = false">
-            <div class="flex justify-between items-center">
+            <div class="p-4 flex justify-between items-center">
                 <div class="cursor-pointer">
-                    <router-link class="w-full" to="/">
-                        <h1 class="text-sm font-bold">Home</h1>
+                    <router-link to="/">
+                        <h1 class="text-xl font-bold">Home</h1>
                     </router-link>
                 </div>
                 <FontAwesomeIcon
@@ -20,17 +20,15 @@
                 />
             </div>
             <nav>
-                <DividerComponent class="text-sm" text="Canvas" />
-                <div class="mb-4">
-                    <router-link class="w-full" to="/canvas">
-                        <span class="font-bold">Paint canvas</span>
-                    </router-link>
-                </div>
-                <div class="mb-4">
-                    <router-link class="w-full" to="/canvas-list">
-                        <span class="font-bold">Canvas list</span>
-                    </router-link>
-                </div>
+                <DividerComponent
+                    class="text-sm"
+                    text="Canvas"
+                    :start="false"
+                />
+                <SidebarNavItem text="Paint canvas" to="/canvas" />
+                <SidebarNavItem text="Canvas list" to="/canvas-list" />
+                <DividerComponent class="text-sm" text="Theme" :end="false" />
+                <SidebarNavItem text="Theme overview" to="/theme" />
             </nav>
         </aside>
     </div>
@@ -42,6 +40,7 @@ import { ref, computed, normalizeClass } from 'vue';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 // -- Components
 import DividerComponent from '@/components/DividerComponent.vue';
+import SidebarNavItem from './components/SidebarNavItem.vue';
 
 const menuOpen = ref(false);
 
@@ -50,8 +49,18 @@ const asideClass = computed(() => {
     return normalizeClass([
         'fixed top-0 left-0',
         'h-full z-10 overflow-auto',
-        'min-w-fit max-w-xs w-3/5 p-4  ',
-        'bg-primary text-secondary text-base shadow',
+        'min-w-fit max-w-xs w-3/5',
+        'bg-secondary text-on-secondary text-base shadow-md shadow-accent',
+    ]);
+});
+
+const navItemClass = computed(() => {
+    return normalizeClass([
+        'px-2 py-1 mb-1',
+        'font-bold',
+        'shadow shadow-accent',
+        'bg-tertiary text-on-tertiary',
+        'border-t-2 border-accent',
     ]);
 });
 </script>

@@ -101,17 +101,18 @@ const generateCircles = () => {
 };
 
 const rangeInputClass = normalizeClass([
-    'w-full h-2 bg-secondary appearance-none cursor-pointer',
+    'w-full h-2',
+    'bg-tertiary cursor-pointer appearance-none',
     'disabled:opacity-50 disabled:pointer-events-none focus:outline-none',
     '[&::-webkit-slider-thumb]:w-3.5',
     '[&::-webkit-slider-thumb]:h-3.5',
     '[&::-webkit-slider-thumb]:appearance-none',
     '[&::-webkit-slider-thumb]:bg-primary',
+    '[&::-webkit-slider-thumb]:dark:bg-primary',
     '[&::-webkit-slider-thumb]:shadow-[0_0_0_0.175rem]',
-    '[&::-webkit-slider-thumb]:dark:shadow-[0_0_0_0.175rem]',
+    '[&::-webkit-slider-thumb]:shadow-accent',
     '[&::-webkit-slider-thumb]:transition-all',
     '[&::-webkit-slider-thumb]:duration-150',
     '[&::-webkit-slider-thumb]:ease-in-out',
-    '[&::-webkit-slider-thumb]:dark:bg-slate-700',
 ]);
 </script>

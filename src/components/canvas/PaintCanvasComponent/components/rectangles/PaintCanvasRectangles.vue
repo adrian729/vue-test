@@ -1,10 +1,11 @@
 <template>
     <div class="flex justify-center py-4">
-        <CanvasRectanglesComponent
+        <CanvasDrawComponent
             :id="props.canvas_uuid"
             :width="props.width"
             :height="props.height"
             :data="rectanglesData"
+            type="rectangles"
             ref="canvas"
         />
     </div>
@@ -20,7 +21,7 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import CanvasRectanglesComponent from '@/components/canvas/CanvasRectanglesComponent.vue';
+import CanvasDrawComponent from '@/components/canvas/CanvasDrawComponent.vue';
 import PaintCanvasRectanglesSettings from './PaintCanvasRectanglesSettings.vue';
 import DividerComponent from '@/components/DividerComponent.vue';
 

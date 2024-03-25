@@ -1,7 +1,7 @@
 <template>
     <header :class="headerClass">
         <div class="text-2xl flex items-center gap-8">
-            <SideBarMenu />
+            <SidebarMenu />
             <router-link class="w-full" to="/">
                 <h3 class="font-bold text-2xl">Vue-test</h3>
             </router-link>
@@ -40,7 +40,7 @@ import {
     faSun as fasSun,
 } from '@fortawesome/free-solid-svg-icons';
 // -- Components
-import SideBarMenu from '@/components/SideBarMenu.vue';
+import { SidebarMenu } from '@/components/SidebarMenu';
 
 const THEME_DARK = 'dark';
 const THEME_LIGHT = 'light';
@@ -78,17 +78,19 @@ const toggleTheme = () => {
 // -- Style Classes
 const headerClass = computed(() => {
     return normalizeClass([
+        'bg-primary text-on-primary',
         'sticky top-0',
-        'bg-secondary text-primary',
         'min-h-10 h-fit px-5 py-4',
+        'shadow-md',
         'flex justify-between items-center',
     ]);
 });
 
 const themeToggleClass = computed(() => {
     return normalizeClass([
-        'bg-primary text-secondary font-semibold',
-        'py-2 px-4 rounded shadow',
+        'bg-container-primary text-on-container-primary',
+        'py-2 px-4 rounded',
+        'shadow shadow-on-primary',
         'flex gap-1',
     ]);
 });

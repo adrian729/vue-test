@@ -3,18 +3,18 @@
         <slot name="start"></slot>
         <div
             v-if="props.start"
-            class="flex-grow border-t border-slate-700 dark:border-slate-400"
+            :class="`flex-grow border border-${props.color} `"
         ></div>
         <span
             v-if="props.text.length > 0"
-            class="flex-shrink mx-4 text-slate-700 dark:text-slate-400 font-bold"
+            :class="`flex-shrink mx-4 font-bold text-${props.color} `"
         >
             {{ props.text }}
         </span>
         <slot></slot>
         <div
             v-if="props.end"
-            class="flex-grow border-t border-slate-700 dark:border-slate-400"
+            :class="`flex-grow border border-${props.color} `"
         ></div>
         <slot name="end"></slot>
     </div>
@@ -33,6 +33,10 @@ const props = defineProps({
     end: {
         type: Boolean,
         default: true,
+    },
+    color: {
+        type: String,
+        default: 'accent',
     },
 });
 </script>

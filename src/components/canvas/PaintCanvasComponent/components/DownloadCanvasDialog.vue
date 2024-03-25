@@ -3,14 +3,17 @@
         <p>
             Download the canvas as
             <input
-                class="w-fit"
+                class="w-fit bg-primary text-primary-text px-2"
                 type="text"
                 placeholder="canvas"
                 v-model="canvasFileName"
             />.png?
         </p>
-        <div class="flex flex-1 justify-between">
-            <button class="btn-gray w-28" @click="downloadCanvas">
+        <div class="min-w-72 pt-4 flex flex-1 justify-between">
+            <button
+                class="btn bg-primary text-primary-text w-28"
+                @click="downloadCanvas"
+            >
                 continue
             </button>
             <button

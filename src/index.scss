@@ -4,24 +4,90 @@
 
 @layer base {
     :root {
-        --primary-color: theme(colors.pink.200);
-        --font-primary-color: theme(colors.black);
-        --secondary-color: theme(colors.pink.300);
-        --font-secondary-color: theme(colors.black / 90%);
-        --tertiary-color: theme(colors.purple.400);
-        --font-tertiary-color: theme(colors.black / 80%);
-        --accent-color: theme(colors.violet.500);
-        --font-accent-color: theme(colors.white);
+        // -- Primary Colors - header, main buttons, links, etc.
+        --color-primary: theme(colors.pink.200);
+        // - text/icons on primary
+        --color-on-primary: theme(colors.black / 85%);
+        // - buttons and foreground elements
+        --color-container-primary: theme(colors.pink.500);
+        // - text/icons on container
+        --color-on-container-primary: theme(colors.white / 90%);
+
+        // -- Secondary Colors - secondary buttons, accessed links, etc.
+        --color-secondary: theme(colors.rose.300);
+        --color-on-secondary: theme(colors.black / 90%);
+        --color-container-secondary: theme(colors.fuchsia.600);
+        --color-on-container-secondary: theme(colors.white / 90%);
+
+        // -- Tertiary Colors - tertiary buttons, etc.
+        --color-tertiary: theme(colors.cyan.200);
+        --color-on-tertiary: theme(colors.black / 85%);
+        --color-container-tertiary: theme(colors.cyan.500);
+        --color-on-container-tertiary: theme(colors.white / 80%);
+
+        // -- Warning Colors - Error, Alert, etc.
+        --color-warning: theme(colors.amber.400);
+        --color-on-warning: theme(colors.black / 90%);
+        --color-container-warning: theme(colors.red.700);
+        --color-on-container-warning: theme(colors.white / 80%);
+
+        // -- Surface/Background Colors
+        --color-dim-surface: theme(colors.rose.400);
+        --color-surface: theme(colors.amber.100);
+        --color-bright-surface: theme(colors.red.50);
+        --color-on-surface: theme(colors.black / 75%);
+
+        --color-inverse-surface: theme(colors.rose.900);
+        --color-on-inverse-surface: theme(colors.white / 80%);
+
+        // -- Accent Colors - TODO
+        --color-accent: theme(colors.violet.600);
+        --color-on-accent: theme(colors.white / 90%);
+        --color-container-accent: theme(colors.violet.300);
+        --color-on-container-accent: theme(colors.black / 80%);
     }
     :root[data-theme='dark'] {
-        --primary-color: theme(colors.slate.900);
-        --font-primary-color: theme(colors.white);
-        --secondary-color: theme(colors.slate.800);
-        --font-secondary-color: theme(colors.white / 90%);
-        --tertiary-color: theme(colors.teal.500);
-        --font-tertiary-color: theme(colors.black / 80%);
-        --accent-color: theme(colors.slate.300);
-        --font-accent-color: theme(colors.black);
+        // -- Primary Colors - header, main buttons, links, etc.
+        --color-primary: theme(colors.pink.600);
+        // - text/icons on primary
+        --color-on-primary: theme(colors.white / 85%);
+        // - buttons and foreground elements
+        --color-container-primary: theme(colors.pink.200);
+        // - text/icons on container
+        --color-on-container-primary: theme(colors.black / 85%);
+
+        // -- Secondary Colors - secondary buttons, accessed links, etc.
+        --color-secondary: theme(colors.rose.900);
+        --color-on-secondary: theme(colors.white / 75%);
+        --color-container-secondary: theme(colors.rose.400);
+        --color-on-container-secondary: theme(colors.black / 80%);
+
+        // -- Tertiary Colors - tertiary buttons, etc.
+        --color-tertiary: theme(colors.teal.600);
+        --color-on-tertiary: theme(colors.white / 90%);
+        --color-container-tertiary: theme(colors.teal.100);
+        --color-on-container-tertiary: theme(colors.black / 75%);
+
+        // -- Warning Colors - Error, Alert, etc.
+        --color-warning: theme(colors.red.700);
+        --color-on-warning: theme(colors.white / 80%);
+        --color-container-warning: theme(colors.red.500);
+        --color-on-container-warning: theme(colors.white / 90%);
+
+        // -- Surface/Background Colors
+        --color-dim-surface: theme(colors.zinc.950);
+        --color-surface: theme(colors.zinc.900);
+        --color-bright-surface: theme(colors.zinc.500);
+        --color-on-surface: theme(colors.white / 85%);
+
+        --color-inverse-surface: theme(colors.zinc.100);
+        --color-on-inverse-surface: theme(colors.black / 85%);
+
+        // -- Accent Colors
+        --color-accent: theme(colors.amber.500);
+        --color-on-accent: theme(colors.black / 85%);
+        --color-container-accent: theme(colors.yellow.100);
+        --color-on-container-accent: theme(colors.black / 80%);
     }
     html,
     body,
@@ -35,7 +101,7 @@
 
 @layer components {
     .btn {
-        @apply font-semibold py-1 px-2 rounded-md border border-gray-400 shadow-lg cursor-pointer;
+        @apply font-semibold py-1 px-2 rounded-md shadow-lg cursor-pointer;
     }
 
     .btn-gray {

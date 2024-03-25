@@ -1,7 +1,7 @@
 <template>
     <DialogComponent ref="uploadDialog">
         <p>Upload canvas?</p>
-        <div class="flex flex-1 justify-between">
+        <div class="min-w-72 pt-4 flex flex-1 justify-between">
             <button class="btn-gray w-28" @click="uploadCanvas">
                 continue
             </button>
@@ -40,7 +40,7 @@ const uploadCanvas = () => {
         return;
     }
     axios
-        .post(`${jsonServerUrl}/${props.canvasData.type}`, props.canvasData)
+        .post(`${jsonServerUrl}/canvas`, props.canvasData)
         .then((response) => {
             console.log('uploadCanvas', response.data);
         })

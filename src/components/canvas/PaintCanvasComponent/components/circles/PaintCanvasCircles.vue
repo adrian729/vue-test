@@ -1,10 +1,11 @@
 <template>
     <div class="flex justify-center py-4">
-        <CanvasCirclesComponent
+        <CanvasDrawComponent
             :id="props.canvas_uuid"
             :width="props.width"
             :height="props.height"
             :data="circlesData"
+            type="circles"
             ref="canvas"
         />
     </div>
@@ -22,7 +23,7 @@
 import { ref, computed, onBeforeMount } from 'vue';
 import { randomRange, valueToLog } from '@/utils/mathUtils.js';
 // -- Components
-import CanvasCirclesComponent from '@/components/canvas/CanvasCirclesComponent.vue';
+import CanvasDrawComponent from '@/components/canvas/CanvasDrawComponent.vue';
 import PaintCanvasCirclesSettings from './PaintCanvasCirclesSettings.vue';
 import DividerComponent from '@/components/DividerComponent.vue';
 

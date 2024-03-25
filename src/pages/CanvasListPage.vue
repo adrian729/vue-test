@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2 class="text-2xl font-bold">Canvas List</h2>
-        <DividerComponent />
+        <DividerComponent text="Canvas" />
         <CanvasList />
     </div>
 </template>

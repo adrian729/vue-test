@@ -1,12 +1,14 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import HomePage from '@/pages/HomePage.vue';
 import CanvasListPage from '@/pages/CanvasListPage.vue';
+import ThemePage from '@/pages/ThemePage.vue';
 import { PaintCanvasComponent } from '@/components/canvas/PaintCanvasComponent';
 
 const routes = [
     { path: '/', component: HomePage },
     { path: '/canvas', component: PaintCanvasComponent },
     { path: '/canvas-list', component: CanvasListPage },
+    { path: '/theme', component: ThemePage },
 ];
 
 const router = createRouter({
