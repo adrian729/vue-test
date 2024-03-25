@@ -16,35 +16,33 @@
             >
                 continue
             </button>
-            <button
-                autofocus
-                class="btn-red w-28"
-                @click="downloadDialog?.dialogRef?.close()"
-            >
+            <button autofocus class="btn-red w-28" @click="close()">
                 cancel
             </button>
         </div>
     </DialogComponent>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import DialogComponent from '@/components/DialogComponent.vue';
 
-const props = defineProps({
-    canvas_uuid: {
-        type: String,
-        required: true,
-    },
-});
+interface Props {
+    canvas_uuid: string;
+}
+const props = defineProps<Props>();
 
-const downloadDialog = ref(null);
-const canvasFileName = ref('');
+const downloadDialog = ref<InstanceType<typeof DialogComponent> | null>(null);
+const canvasFileName = ref<string>('');
 
-defineExpose({ downloadDialog });
+const open = () => downloadDialog.value?.open();
+const close = () => downloadDialog.value?.close();
+defineExpose({ open, close });
 
 const downloadCanvas = () => {
-    const canvasElement = document.getElementById(props.canvas_uuid);
+    const canvasElement = document.getElementById(
+        props.canvas_uuid,
+    ) as HTMLCanvasElement;
     if (!canvasElement) {
         return;
     }
@@ -52,6 +50,6 @@ const downloadCanvas = () => {
     link.download = `${canvasFileName.value || 'canvas'}.png`;
     link.href = canvasElement.toDataURL();
     link.click();
-    downloadDialog.value?.dialogRef?.close();
+    close();
 };
 </script>

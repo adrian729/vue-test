@@ -6,28 +6,25 @@
     </router-link>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, normalizeClass } from 'vue';
 
-const props = defineProps({
-    text: {
-        type: String,
-        default: '',
-        required: true,
-    },
-    to: {
-        type: String,
-        default: '/',
-        required: true,
-    },
+interface Props {
+    text: string;
+    to: string;
+}
+const props = withDefaults(defineProps<Props>(), {
+    text: '',
+    to: '/',
 });
-const navItemClass = computed(() => {
-    return normalizeClass([
+
+const navItemClass = computed<string>(() =>
+    normalizeClass([
         'px-2 py-1 mb-1',
         'font-bold',
         'shadow shadow-accent',
         'bg-tertiary text-on-tertiary',
         'border-t-2 border-accent',
-    ]);
-});
+    ]),
+);
 </script>

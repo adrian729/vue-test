@@ -61,7 +61,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { normalizeClass } from 'vue';
 import DividerComponent from '@/components/DividerComponent.vue';
 const surfaces = [
@@ -72,14 +72,14 @@ const surfaces = [
 ];
 const colorVariations = ['primary', 'secondary', 'tertiary', 'warning'];
 
-const capitalizeFirstLetter = (str) => {
+const capitalizeFirstLetter = (str: string): string => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const getInverseClass = (surface) =>
+const getInverseClass = (surface: string): string =>
     surface === 'inverse-surface' ? 'inverse-' : '';
 
-const getSurfaceTitle = (surface) =>
+const getSurfaceTitle = (surface: string): string =>
     surface
         .split('-')
         .map((str) => capitalizeFirstLetter(str))

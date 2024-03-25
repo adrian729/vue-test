@@ -67,16 +67,15 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { normalizeClass } from 'vue';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { clamp } from '@/utils/mathUtils';
 
-const props = defineProps({
-    divisions: {
-        type: Number,
-        required: true,
-    },
-});
+interface Props {
+    divisions: number;
+}
+const props = defineProps<Props>();
 
 const squareProbability = defineModel('squareProbability', {
     type: Number,
@@ -87,11 +86,12 @@ const smallSquareProbability = defineModel('smallSquareProbability', {
     required: true,
 });
 
-const emit = defineEmits(['updateDivisions', 'generateRectangles']);
+const emit = defineEmits({
+    updateDivisions: (value: number) => clamp(value, 1, 30),
+    generateRectangles: null,
+});
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-
-const updateDivisions = (value) => {
+const updateDivisions = (value: number) => {
     emit('updateDivisions', clamp(value, 1, 30));
 };
 

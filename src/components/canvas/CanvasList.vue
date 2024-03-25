@@ -8,11 +8,10 @@
             :key="canvas.id"
         >
             <CanvasDrawComponent
-                :id="canvas.id"
+                :canvas_uuid="canvas.id.toString()"
                 :width="800"
                 :height="800"
-                :data="canvas.data"
-                :type="canvas.type"
+                :canvasItem="canvas"
             />
             <div class="px-2 py-4">
                 <h3>Canvas {{ canvas.id }}</h3>
@@ -21,16 +20,21 @@
         </div>
     </div>
 </template>
-<script setup>
+<script setup lang="ts">
 // -- Imports
 import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 // -- Components
 import CanvasDrawComponent from '@/components/canvas/CanvasDrawComponent.vue';
+// -- Types
+import type { CanvasItem } from '@/components/canvas/types';
 
 const jsonServerUrl = import.meta.env.VITE_JSON_SERVER_URL;
 
-const data = reactive({
+interface Data {
+    canvas: CanvasItem[];
+}
+const data = reactive<Data>({
     canvas: [],
 });
 

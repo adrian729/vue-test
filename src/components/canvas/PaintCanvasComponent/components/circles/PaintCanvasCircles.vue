@@ -1,11 +1,10 @@
 <template>
     <div class="flex justify-center py-4">
         <CanvasDrawComponent
-            :id="props.canvas_uuid"
+            :canvas_uuid="props.canvas_uuid"
             :width="props.width"
             :height="props.height"
-            :data="circlesData"
-            type="circles"
+            :canvasItem="{ data: circlesData, type: 'circles' }"
             ref="canvas"
         />
     </div>
@@ -18,45 +17,43 @@
     />
 </template>
 
-<script setup>
+<script setup lang="ts">
 // -- Imports
 import { ref, computed, onBeforeMount } from 'vue';
-import { randomRange, valueToLog } from '@/utils/mathUtils.js';
+import { randomRange, valueToLog } from '@/utils/mathUtils';
 // -- Components
 import CanvasDrawComponent from '@/components/canvas/CanvasDrawComponent.vue';
 import PaintCanvasCirclesSettings from './PaintCanvasCirclesSettings.vue';
 import DividerComponent from '@/components/DividerComponent.vue';
+// -- Types
+import type { CirclesData, CirclesCanvasItem } from '@/components/canvas/types';
 
-const props = defineProps({
-    canvas_uuid: {
-        type: String,
-        required: true,
-    },
-    width: {
-        type: Number,
-        default: 1080,
-    },
-    height: {
-        type: Number,
-        default: 1080,
-    },
+interface Props {
+    canvas_uuid: string;
+    width?: number;
+    height?: number;
+}
+const props = withDefaults(defineProps<Props>(), {
+    width: 1080,
+    height: 1080,
 });
 
 // keep same aspect ratio as in css
-const numSlicesLog = ref(50);
-const numSlices = computed(() => {
-    console.log('update numSlices');
-    return Math.ceil(valueToLog(numSlicesLog.value, 0, 100, 1, 2000));
-});
-const linesProbability = ref(0.7);
-const arcsProbability = ref(0.5);
-const circlesData = ref({
+const numSlicesLog = ref<number>(50);
+const numSlices = computed<number>(() =>
+    Math.ceil(valueToLog(numSlicesLog.value, 0, 100, 1, 2000)),
+);
+const linesProbability = ref<number>(0.7);
+const arcsProbability = ref<number>(0.5);
+const circlesData = ref<CirclesData>({
     num_slices: 40,
-    lines: [], // list of rectInfo { idx, scale: {x, y}, rect_h }
-    arcs: [], // list of arcInfo { idx, lineWidth, radius, startAngle, endAngle }
+    lines: [],
+    arcs: [],
 });
 
-const emit = defineEmits(['updateCanvasData']);
+const emit = defineEmits({
+    updateCanvasData: (canvasData: Omit<CirclesCanvasItem, 'id'>) => canvasData,
+});
 
 onBeforeMount(() => {
     generateCircles();
@@ -81,17 +78,14 @@ const generateCircles = () => {
         if (Math.random() > 1 - arcsProbability.value) {
             circlesData.value.arcs.push({
                 idx: i,
-                lineWidth: randomRange(0.01, 0.03),
+                line_width: randomRange(0.01, 0.03),
                 radius: randomRange(0.7, 1.3),
-                startAngle: randomRange(-8, 1),
-                endAngle: randomRange(1, 5),
+                start_angle: randomRange(-8, 1),
+                end_angle: randomRange(1, 5),
             });
         }
     }
 
-    emit('updateCanvasData', {
-        data: circlesData.value,
-        type: 'circles',
-    });
+    emit('updateCanvasData', { data: circlesData.value, type: 'circles' });
 };
 </script>

@@ -1,41 +1,45 @@
 <template>
     <canvas
         class="w-full border-2 border-accent"
-        :id="id"
+        :id="canvas_uuid"
         :width="width"
         :height="height"
         ref="canvas"
     ></canvas>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { degToRad } from '@/utils/mathUtils.js';
+import { degToRad } from '@/utils/mathUtils';
+import type {
+    CirclesData,
+    RectanglesData,
+    CanvasItem,
+} from '@/components/canvas/types';
 
-const canvas = ref(null);
-const context = ref(null);
+import { isCirclesData, isRectanglesData } from '@/components/canvas/types';
 
-const props = defineProps({
-    id: {
-        type: [Number, String],
-        default: 'canvas',
-    },
-    width: {
-        type: Number,
-        default: 500,
-    },
-    height: {
-        type: Number,
-        default: 500,
-    },
-    data: {
-        type: Object,
-        default: () => ({}),
-    },
-    type: {
-        type: String,
-        default: 'circles',
-    },
+const canvas = ref<HTMLCanvasElement | null>(null);
+const context = ref<CanvasRenderingContext2D | undefined | null>(null);
+
+type Props = {
+    canvas_uuid: string;
+    width: number;
+    height: number;
+    canvasItem: Omit<CanvasItem, 'id'>;
+};
+const props = withDefaults(defineProps<Props>(), {
+    id: 'canvas',
+    width: 500,
+    height: 500,
+    canvasItem: () => ({
+        data: {
+            num_slices: 1,
+            lines: [],
+            arcs: [],
+        },
+        type: 'circles',
+    }),
 });
 
 onMounted(() => {
@@ -44,7 +48,7 @@ onMounted(() => {
 });
 
 watch(
-    () => [props.data, props.type],
+    () => [props.canvasItem],
     () => {
         draw();
     },
@@ -52,130 +56,131 @@ watch(
 );
 
 const draw = () => {
-    if (props.type === 'circles') {
-        drawCircles();
-    } else {
-        drawRectangles();
-    }
-};
-
-const drawCircles = () => {
     if (!canvas.value || !context.value) {
         return;
     }
-
-    // reset canvas
-    context.value.clearRect(0, 0, props.width, props.height);
-
-    context.value.fillStyle = 'white';
-    context.value.fillRect(0, 0, props.width, props.height);
-    context.value.fillStyle = 'black';
-
-    if (!props.data?.lines?.length && !props.data?.arcs?.length) {
+    if (!props.canvasItem) {
         return;
     }
-    const cx = 0.5 * props.width;
-    const cy = 0.5 * props.height;
 
-    const w = 0.01 * props.width;
-    const h = 0.1 * props.height;
+    if (isCirclesData(props.canvasItem.data)) {
+        drawCircles(
+            context.value,
+            props.canvasItem.data,
+            props.width,
+            props.height,
+        );
+    } else if (isRectanglesData(props.canvasItem.data)) {
+        drawRectangles(
+            context.value,
+            props.canvasItem.data,
+            props.width,
+            props.height,
+        );
+    }
+};
+
+const drawCircles = (
+    context: CanvasRenderingContext2D,
+    data: CirclesData,
+    width: number,
+    height: number,
+) => {
+    // reset canvas
+    context.clearRect(0, 0, width, height);
+
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, width, height);
+    context.fillStyle = 'black';
+
+    if (!data?.lines?.length && !data?.arcs?.length) {
+        return;
+    }
+    const cx = 0.5 * width;
+    const cy = 0.5 * height;
+
+    const w = 0.01 * width;
+    const h = 0.1 * height;
     let x, y;
 
-    const radius = props.width * 0.3;
-    const slice = degToRad(360 / props.data.num_slices);
+    const radius = width * 0.3;
+    const slice = degToRad(360 / data.num_slices);
 
-    /*
-    {
-        num_slices: (2, 2000) <-- settings: check how to do log scale slider
-        lines: { < -- settings: Line Probability
-            idx,
-            scale: {x, y},
-            rect_h,
-
-        },
-        arcs: { < -- settings: Arc Probability
-            idx,
-            lineWidth,
-            radius,
-            startAngle,
-            endAngle,
-        }
-    }
-    */
     // -- lines
-    for (const line of props.data.lines) {
+    for (const line of data.lines) {
         const angle = slice * line.idx;
 
         x = cx + radius * Math.sin(angle);
         y = cy + radius * Math.cos(angle);
 
-        context.value.save();
+        context.save();
 
-        context.value.translate(x, y);
-        context.value.rotate(-angle);
-        context.value.scale(line.scale.x, line.scale.y);
+        context.translate(x, y);
+        context.rotate(-angle);
+        context.scale(line.scale.x, line.scale.y);
 
-        context.value.beginPath();
-        context.value.rect(-0.5 * w, line.rect_h * h, w, h);
-        context.value.fill();
+        context.beginPath();
+        context.rect(-0.5 * w, line.rect_h * h, w, h);
+        context.fill();
 
-        context.value.restore();
+        context.restore();
     }
     // -- arcs
-    for (const arc of props.data.arcs) {
+    for (const arc of data.arcs) {
         const angle = slice * arc.idx;
 
-        context.value.save();
+        context.save();
 
-        context.value.translate(cx, cy);
-        context.value.rotate(-angle);
+        context.translate(cx, cy);
+        context.rotate(-angle);
 
-        context.value.lineWidth = arc.lineWidth * props.width;
+        context.lineWidth = arc.line_width * width;
 
-        context.value.beginPath();
-        context.value.arc(
+        context.beginPath();
+        context.arc(
             0,
             0,
             arc.radius * radius,
-            slice * arc.startAngle,
-            slice * arc.endAngle,
+            slice * arc.start_angle,
+            slice * arc.end_angle,
         );
-        context.value.stroke();
+        context.stroke();
 
-        context.value.restore();
+        context.restore();
     }
 };
 
-const drawRectangles = () => {
-    if (!canvas.value || !context.value) {
-        return;
-    }
-
+const drawRectangles = (
+    context: CanvasRenderingContext2D,
+    data: RectanglesData,
+    width: number,
+    height: number,
+) => {
     // reset canvas
-    context.value.clearRect(0, 0, props.width, props.height);
+    context.clearRect(0, 0, width, height);
 
-    context.value.fillStyle = 'white';
-    context.value.fillRect(0, 0, props.width, props.height);
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, width, height);
 
-    if (!props.data?.rectangles?.length) {
+    if (!data?.rectangles?.length) {
         return;
     }
 
-    const rectangles = props.data.rectangles;
-    const gap_x = props.data.gap * props.width;
-    const gap_y = props.data.gap * props.height;
-    const divisions = props.data.divisions;
+    const rectangles = data.rectangles;
+    const gap_x = data.gap * width;
+    const gap_y = data.gap * height;
+    const divisions = data.divisions;
 
-    const w_space = props.width - gap_x * (divisions + 1);
-    const h_space = props.height - gap_y * (divisions + 1);
+    const w_space = width - gap_x * (divisions + 1);
+    const h_space = height - gap_y * (divisions + 1);
     const rect_w = w_space / divisions;
     const rect_h = h_space / divisions;
 
-    const in_gap_x = rect_w * props.data.in_gap;
-    const in_gap_y = rect_h * props.data.in_gap;
+    const in_gap_x = rect_w * data.in_gap;
+    const in_gap_y = rect_h * data.in_gap;
 
     // draw rects
-    context.value.lineWidth = props.width * 0.01;
+    context.lineWidth = width * 0.01;
     for (const rect of rectangles) {
         let x = rect.x * (rect_w + gap_x) + gap_x;
         let y = rect.y * (rect_h + gap_y) + gap_y;
@@ -189,9 +194,9 @@ const drawRectangles = () => {
             h -= 2 * in_gap_y;
         }
 
-        context.value.beginPath();
-        context.value.rect(x, y, w, h);
-        context.value.stroke();
+        context.beginPath();
+        context.rect(x, y, w, h);
+        context.stroke();
     }
 };
 </script>

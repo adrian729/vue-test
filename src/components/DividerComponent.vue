@@ -20,23 +20,17 @@
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
-    text: {
-        type: String,
-        default: '',
-    },
-    start: {
-        type: Boolean,
-        default: true,
-    },
-    end: {
-        type: Boolean,
-        default: true,
-    },
-    color: {
-        type: String,
-        default: 'accent',
-    },
+<script setup lang="ts">
+interface Props {
+    text?: string;
+    start?: boolean;
+    end?: boolean;
+    color?: string;
+}
+const props = withDefaults(defineProps<Props>(), {
+    text: '',
+    start: true,
+    end: true,
+    color: 'accent',
 });
 </script>

@@ -73,9 +73,9 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, normalizeClass } from 'vue';
-import { valueToLog } from '@/utils/mathUtils.js';
+import { valueToLog } from '@/utils/mathUtils';
 
 const linesProbability = defineModel('linesProbability', {
     type: Number,
@@ -90,11 +90,11 @@ const numSlicesLog = defineModel('numSlicesLog', {
     required: true,
 });
 
-const numSlices = computed(() => {
-    return Math.ceil(valueToLog(numSlicesLog.value, 0, 100, 1, 2000));
-});
+const numSlices = computed<number>(() =>
+    Math.ceil(valueToLog(numSlicesLog.value, 0, 100, 1, 2000)),
+);
 
-const emit = defineEmits(['generateCircles']);
+const emit = defineEmits({ generateCircles: null });
 
 const generateCircles = () => {
     emit('generateCircles');

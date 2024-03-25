@@ -1,11 +1,10 @@
 <template>
     <div class="flex justify-center py-4">
         <CanvasDrawComponent
-            :id="props.canvas_uuid"
+            :canvas_uuid="props.canvas_uuid"
             :width="props.width"
             :height="props.height"
-            :data="rectanglesData"
-            type="rectangles"
+            :canvasItem="{ data: rectanglesData, type: 'rectangles' }"
             ref="canvas"
         />
     </div>
@@ -19,39 +18,44 @@
     />
 </template>
 
-<script setup>
+<script setup lang="ts">
+// -- Imports
 import { ref, onBeforeMount } from 'vue';
+// -- Components
+import DividerComponent from '@/components/DividerComponent.vue';
 import CanvasDrawComponent from '@/components/canvas/CanvasDrawComponent.vue';
 import PaintCanvasRectanglesSettings from './PaintCanvasRectanglesSettings.vue';
-import DividerComponent from '@/components/DividerComponent.vue';
+// -- Types
+import type {
+    RectanglesData,
+    RectanglesCanvasItem,
+} from '@/components/canvas/types';
 
-const props = defineProps({
-    canvas_uuid: {
-        type: String,
-        required: true,
-    },
-    width: {
-        type: Number,
-        default: 1080,
-    },
-    height: {
-        type: Number,
-        default: 1080,
-    },
+interface Props {
+    canvas_uuid: string;
+    width?: number;
+    height?: number;
+}
+const props = withDefaults(defineProps<Props>(), {
+    width: 1080,
+    height: 1080,
 });
 
 // keep same aspect ratio as in css
-const divisions = ref(5);
-const squareProbability = ref(1.0);
-const smallSquareProbability = ref(0.5);
-const rectanglesData = ref({
-    rectangles: [], // list of rectInfo { x, y, is_in }
+const divisions = ref<number>(5);
+const squareProbability = ref<number>(1.0);
+const smallSquareProbability = ref<number>(0.5);
+const rectanglesData = ref<RectanglesData>({
+    rectangles: [],
     gap: 0.05,
     in_gap: 0.1,
     divisions: 5,
 });
 
-const emit = defineEmits(['updateCanvasData']);
+const emit = defineEmits({
+    updateCanvasData: (canvasData: Omit<RectanglesCanvasItem, 'id'>) =>
+        canvasData,
+});
 
 onBeforeMount(() => {
     generateRectangles();
@@ -88,7 +92,7 @@ const generateRectangles = () => {
     });
 };
 
-const updateDivisions = (value) => {
+const updateDivisions = (value: number) => {
     divisions.value = value;
     generateRectangles();
 };

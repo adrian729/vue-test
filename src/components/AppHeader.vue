@@ -18,7 +18,7 @@
                     <FontAwesomeIcon class="cursor-pointer" :icon="faGithub" />
                 </li>
             </ul>
-            <button :class="themeToggleClass" @click="toggleTheme">
+            <button :class="toggleThemeClass" @click="toggleTheme">
                 <FontAwesomeIcon :icon="themeChangeIconMoon" />
                 <FontAwesomeIcon :icon="themeChangeIconSun" />
             </button>
@@ -26,11 +26,15 @@
     </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // -- Imports
 import { ref, computed, onMounted, normalizeClass } from 'vue';
 // -- Fonts
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import {
+    faGithub,
+    faLinkedin,
+    type IconDefinition,
+} from '@fortawesome/free-brands-svg-icons';
 import {
     faMoon as farMoon,
     faSun as farSun,
@@ -44,19 +48,19 @@ import { SidebarMenu } from '@/components/SidebarMenu';
 
 const THEME_DARK = 'dark';
 const THEME_LIGHT = 'light';
-const theme = ref(null);
+const theme = ref<string | null>(null);
 
 onMounted(() => {
     setTheme();
 });
 
-const themeChangeIconMoon = computed(() => {
-    return theme.value === THEME_DARK ? fasMoon : farMoon;
-});
+const themeChangeIconMoon = computed<IconDefinition>(() =>
+    theme.value === THEME_DARK ? fasMoon : farMoon,
+);
 
-const themeChangeIconSun = computed(() => {
-    return theme.value === THEME_DARK ? fasSun : farSun;
-});
+const themeChangeIconSun = computed<IconDefinition>(() =>
+    theme.value === THEME_DARK ? fasSun : farSun,
+);
 
 const setTheme = () => {
     theme.value = localStorage.getItem('theme');
@@ -76,22 +80,22 @@ const toggleTheme = () => {
 };
 
 // -- Style Classes
-const headerClass = computed(() => {
-    return normalizeClass([
+const headerClass = computed<string>(() =>
+    normalizeClass([
         'bg-primary text-on-primary',
         'sticky top-0',
         'min-h-10 h-fit px-5 py-4',
         'shadow-md',
         'flex justify-between items-center',
-    ]);
-});
+    ]),
+);
 
-const themeToggleClass = computed(() => {
-    return normalizeClass([
+const toggleThemeClass = computed<string>(() =>
+    normalizeClass([
         'bg-container-primary text-on-container-primary',
         'py-2 px-4 rounded',
         'shadow shadow-on-primary',
         'flex gap-1',
-    ]);
-});
+    ]),
+);
 </script>

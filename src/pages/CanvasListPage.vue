@@ -5,7 +5,7 @@
         <CanvasList />
     </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import CanvasList from '@/components/canvas/CanvasList.vue';
 import DividerComponent from '@/components/DividerComponent.vue';
 </script>

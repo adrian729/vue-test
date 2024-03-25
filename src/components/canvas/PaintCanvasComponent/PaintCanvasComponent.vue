@@ -3,10 +3,10 @@
         <div class="flex justify-between items-center py-4">
             <h1 class="font-bold text-xl">Paint Canvas</h1>
             <div class="flex justify-between gap-1">
-                <button class="btn-gray w-10" @click="showUploadDialog">
+                <button class="btn-gray w-10" @click="openUploadDialog">
                     <FontAwesomeIcon :icon="faArrowUp" />
                 </button>
-                <button class="btn-gray w-10" @click="showDownloadDialog">
+                <button class="btn-gray w-10" @click="openDownloadDialog">
                     <FontAwesomeIcon :icon="faDownload" />
                 </button>
             </div>
@@ -46,7 +46,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // -- Imports
 import { uuid } from 'vue-uuid';
 import { ref, normalizeClass } from 'vue';
@@ -66,26 +66,30 @@ import PaintCanvasRectangles from './components/rectangles/PaintCanvasRectangles
 import PaintCanvasCircles from './components/circles/PaintCanvasCircles.vue';
 import DownloadCanvasDialog from './components/DownloadCanvasDialog.vue';
 import UploadCanvasDialog from './components/UploadCanvasDialog.vue';
+// -- Types
+import type { CanvasType } from '@/components/canvas/types';
 
 const canvas_uuid = uuid.v4();
 
-const canvasType = ref('circles');
+const canvasType = ref<CanvasType>('circles');
 
-const uploadDialog = ref(null);
-const downloadDialog = ref(null);
+const uploadDialog = ref<InstanceType<typeof UploadCanvasDialog> | null>(null);
+const downloadDialog = ref<InstanceType<typeof DownloadCanvasDialog> | null>(
+    null,
+);
 
-const dimensions = ref({ width: 1080, height: 1080 }); // keep same aspect ratio as in css
-const canvasData = ref({});
+interface Dimensions {
+    width: number;
+    height: number;
+}
+const dimensions = ref<Dimensions>({ width: 1080, height: 1080 }); // keep same aspect ratio as in css
+const canvasData = ref({}); // TODO: Type this
 
-const showUploadDialog = () => {
-    uploadDialog.value?.uploadDialog?.dialogRef?.showModal();
-};
+const openUploadDialog = () => uploadDialog.value?.open();
 
-const showDownloadDialog = () => {
-    downloadDialog.value?.downloadDialog?.dialogRef?.showModal();
-};
+const openDownloadDialog = () => downloadDialog.value?.open();
 
-const iconClass = (iconType) =>
+const iconClass = (iconType: string) =>
     normalizeClass([
         'w-32 py-2',
         'cursor-pointer',

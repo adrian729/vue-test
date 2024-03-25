@@ -7,7 +7,7 @@
             <FontAwesomeIcon
                 class="cursor-pointer"
                 :icon="faXmark"
-                @click="dialogRef?.close()"
+                @click="close()"
             />
         </div>
         <div class="flex flex-col px-8 py-4 gap-4 min-w-72">
@@ -16,14 +16,18 @@
     </dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // -- Imports
 import { ref } from 'vue';
 // -- Fonts
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const dialogRef = ref(null);
-defineExpose({ dialogRef });
+const dialogRef = ref<HTMLDialogElement | null>(null);
+
+const open = () => dialogRef.value?.showModal();
+const close = () => dialogRef.value?.close();
+
+defineExpose({ open, close });
 
 // TODO: Add header, main, footer slots (header for title, main for content, footer for actions/buttons) and add generic default styles
 </script>

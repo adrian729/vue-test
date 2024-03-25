@@ -5,35 +5,32 @@
             <button class="btn-gray w-28" @click="uploadCanvas">
                 continue
             </button>
-            <button
-                autofocus
-                class="btn-red w-28"
-                @click="uploadDialog?.dialogRef?.close()"
-            >
+            <button autofocus class="btn-red w-28" @click="close()">
                 cancel
             </button>
         </div>
     </DialogComponent>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
 import DialogComponent from '@/components/DialogComponent.vue';
 
 const jsonServerUrl = import.meta.env.VITE_JSON_SERVER_URL;
 
-const props = defineProps({
-    canvasData: {
-        type: Object,
-        default: () => ({}),
-        required: true,
-    },
+interface Props {
+    canvasData: Record<string, unknown>;
+}
+const props = withDefaults(defineProps<Props>(), {
+    canvasData: () => ({}),
 });
 
-const uploadDialog = ref(null);
+const uploadDialog = ref<InstanceType<typeof DialogComponent> | null>(null);
 
-defineExpose({ uploadDialog });
+const open = () => uploadDialog.value?.open();
+const close = () => uploadDialog.value?.close();
+defineExpose({ open, close });
 
 const uploadCanvas = () => {
     if (!props.canvasData) {
@@ -45,6 +42,6 @@ const uploadCanvas = () => {
             console.log('uploadCanvas', response.data);
         })
         .catch((error) => console.error(error));
-    uploadDialog.value?.dialogRef?.close();
+    close();
 };
 </script>
