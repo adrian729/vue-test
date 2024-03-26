@@ -2,9 +2,7 @@
     <div :class="appClass">
         <AppHeader />
         <main :class="mainClass">
-            <div class="max-w-screen-xl p-2">
-                <RouterView />
-            </div>
+            <RouterView />
         </main>
         <div class="bg-secondary text-on-secondary p-4">
             <span>Footer</span>
@@ -29,7 +27,7 @@ const appClass = computed<string>(() =>
 );
 const mainClass = computed<string>(() =>
     normalizeClass([
-        'w-full p-4 min-w-80',
+        'w-full min-w-80',
         'flex flex-auto justify-center', // To make the main content fill the remaining space
     ]),
 );

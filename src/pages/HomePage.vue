@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <h1>HOME</h1>
+    <MainLayoutComponent>
+        <PageHeaderComponent title="Home Page" />
+        <DividerComponent />
         <div class="bg-primary text-primary-text p-4">
             <p>Home page content</p>
             <p>Home page content</p>
@@ -25,5 +26,11 @@
             <p>Home page content</p>
             <p>Home page content</p>
         </div>
-    </div>
+    </MainLayoutComponent>
 </template>
+
+<script setup lang="ts">
+import MainLayoutComponent from '@/pages/MainLayoutComponent.vue';
+import DividerComponent from '@/components/DividerComponent.vue';
+import PageHeaderComponent from '@/components/PageHeaderComponent.vue';
+</script>

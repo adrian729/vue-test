@@ -1,48 +1,59 @@
 <template>
-    <div class="flex flex-col m-2">
-        <div class="flex justify-between items-center py-4">
-            <h1 class="font-bold text-xl">Paint Canvas</h1>
-            <div class="flex justify-between gap-1">
-                <button class="btn-gray w-10" @click="openUploadDialog">
-                    <FontAwesomeIcon :icon="faArrowUp" />
-                </button>
-                <button class="btn-gray w-10" @click="openDownloadDialog">
-                    <FontAwesomeIcon :icon="faDownload" />
-                </button>
+    <div class="flex justify-center">
+        <div class="flex flex-col m-2 max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
+            <div class="flex justify-between items-center py-4">
+                <PageHeaderComponent title="Paint Canvas" />
+                <div class="flex justify-between gap-1">
+                    <button
+                        class="btn rounded-full w-10 h-10 flex justify-center items-center bg-secondary"
+                        @click="openUploadDialog"
+                    >
+                        <FontAwesomeIcon :icon="faArrowUp" />
+                    </button>
+                    <button
+                        class="btn rounded-full w-10 h-10 flex justify-center items-center bg-tertiary"
+                        @click="openDownloadDialog"
+                    >
+                        <FontAwesomeIcon :icon="faDownload" />
+                    </button>
+                </div>
             </div>
-        </div>
-        <UploadCanvasDialog :canvasData="canvasData" ref="uploadDialog" />
-        <DownloadCanvasDialog :canvas_uuid="canvas_uuid" ref="downloadDialog" />
-        <DividerComponent />
-        <div
-            class="flex justify-around items-center gap-4 px-4 py-1 bg-slate-50 dark:bg-slate-900"
-        >
-            <FontAwesomeIcon
-                :class="iconClass('circles')"
-                :icon="canvasType === 'circles' ? fasCircle : farCircle"
-                @click="canvasType = 'circles'"
+            <UploadCanvasDialog :canvasData="canvasData" ref="uploadDialog" />
+            <DownloadCanvasDialog
+                :canvas_uuid="canvas_uuid"
+                ref="downloadDialog"
             />
-            <FontAwesomeIcon
-                :class="iconClass('rectangles')"
-                :icon="canvasType === 'rectangles' ? fasSquare : farSquare"
-                @click="canvasType = 'rectangles'"
+            <DividerComponent />
+            <div
+                class="flex justify-around items-center gap-4 px-4 py-1 bg-slate-50 dark:bg-slate-900"
+            >
+                <FontAwesomeIcon
+                    :class="iconClass('circles')"
+                    :icon="canvasType === 'circles' ? fasCircle : farCircle"
+                    @click="canvasType = 'circles'"
+                />
+                <FontAwesomeIcon
+                    :class="iconClass('rectangles')"
+                    :icon="canvasType === 'rectangles' ? fasSquare : farSquare"
+                    @click="canvasType = 'rectangles'"
+                />
+            </div>
+            <DividerComponent />
+            <PaintCanvasCircles
+                v-if="canvasType === 'circles'"
+                :canvas_uuid="canvas_uuid"
+                :width="dimensions.width"
+                :height="dimensions.height"
+                @updateCanvasData="canvasData = $event"
+            />
+            <PaintCanvasRectangles
+                v-if="canvasType === 'rectangles'"
+                :canvas_uuid="canvas_uuid"
+                :width="dimensions.width"
+                :height="dimensions.height"
+                @updateCanvasData="canvasData = $event"
             />
         </div>
-        <DividerComponent />
-        <PaintCanvasCircles
-            v-if="canvasType === 'circles'"
-            :canvas_uuid="canvas_uuid"
-            :width="dimensions.width"
-            :height="dimensions.height"
-            @updateCanvasData="canvasData = $event"
-        />
-        <PaintCanvasRectangles
-            v-if="canvasType === 'rectangles'"
-            :canvas_uuid="canvas_uuid"
-            :width="dimensions.width"
-            :height="dimensions.height"
-            @updateCanvasData="canvasData = $event"
-        />
     </div>
 </template>
 
@@ -61,6 +72,7 @@ import {
     faCircle as fasCircle,
 } from '@fortawesome/free-solid-svg-icons';
 // -- Components
+import PageHeaderComponent from '@/components/PageHeaderComponent.vue';
 import DividerComponent from '@/components/DividerComponent.vue';
 import PaintCanvasRectangles from './components/rectangles/PaintCanvasRectangles.vue';
 import PaintCanvasCircles from './components/circles/PaintCanvasCircles.vue';
