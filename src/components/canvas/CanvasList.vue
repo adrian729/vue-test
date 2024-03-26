@@ -1,9 +1,7 @@
 <template>
-    <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-4"
-    >
+    <div :class="listContainerClass">
         <div
-            class="bg-dim-surface text-on-surface shadow shadow-accent p-4 m-4 rounded-xl transition duration-300 hover:shadow-lg hover:shadow-accent cursor-pointer"
+            :class="itemContainerClass"
             v-for="canvas in data.canvas"
             :key="canvas.id"
         >
@@ -22,7 +20,7 @@
 </template>
 <script setup lang="ts">
 // -- Imports
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, normalizeClass } from 'vue';
 import axios from 'axios';
 // -- Components
 import CanvasDrawComponent from '@/components/canvas/CanvasDrawComponent.vue';
@@ -50,4 +48,21 @@ const loadCanvas = () => {
         })
         .catch((error) => console.error(error));
 };
+
+const listContainerClass = normalizeClass([
+    'grid gap-1',
+    'grid-cols-1',
+    'sm:grid-cols-2',
+    'md:grid-cols-3',
+    'lg:grid-cols-4',
+    'xl:grid-cols-5',
+]);
+
+const itemContainerClass = normalizeClass([
+    'bg-dim-surface text-on-surface cursor-pointer',
+    'p-4 w-full',
+    'shadow shadow-accent',
+    'transition duration-200 hover:shadow-lg hover:shadow-accent hover:z-50 hover:scale-105',
+    'md:hover:scale-110',
+]);
 </script>

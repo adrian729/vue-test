@@ -23,36 +23,22 @@
                 <div
                     v-for="color in colorVariations"
                     :key="color"
-                    :class="`px-4 py-2 w-52 rounded-md shadow-md bg-${color} text-on-${color}`"
+                    :class="`px-4 py-2 w-52 rounded-md shadow-md bg-${color} hover:bg-${color}-hover text-on-${color}`"
                 >
                     <h1 class="font-bold text-lg underline">
                         {{ capitalizeFirstLetter(color) }}
                     </h1>
                     <div class="p-2">
                         <p>Text on {{ color }} element.</p>
-                        <p class="text-accent">Some text with accent.</p>
+                        <p v-if="color !== 'accent'" class="text-accent">
+                            Some text with accent.
+                        </p>
                     </div>
                     <div class="flex justify-end">
                         <button
-                            :class="`btn bg-container-${color} text-on-container-${color}`"
+                            :class="`btn bg-container-${color} hover:bg-container-${color}-hover text-on-container-${color}`"
                         >
                             on {{ color }}
-                        </button>
-                    </div>
-                </div>
-                <div
-                    key="accent"
-                    class="px-4 py-2 w-52 rounded-md shadow-md bg-accent text-on-accent"
-                >
-                    <h1 class="font-bold text-lg underline">Accent</h1>
-                    <div class="p-2">
-                        <p>Text on accent element.</p>
-                    </div>
-                    <div class="flex justify-end">
-                        <button
-                            class="btn bg-container-accent text-on-container-accent"
-                        >
-                            on accent
                         </button>
                     </div>
                 </div>
@@ -70,7 +56,13 @@ const surfaces = [
     'bright-surface',
     'inverse-surface',
 ];
-const colorVariations = ['primary', 'secondary', 'tertiary', 'warning'];
+const colorVariations = [
+    'primary',
+    'secondary',
+    'tertiary',
+    'warning',
+    'accent',
+];
 
 const capitalizeFirstLetter = (str: string): string => {
     return str.charAt(0).toUpperCase() + str.slice(1);

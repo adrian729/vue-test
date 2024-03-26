@@ -8,14 +8,17 @@
         </div>
         <div id="appHeaderLeft" class="flex gap-4">
             <ul class="flex items-center gap-2">
-                <li>
+                <li class="flex justify-center items-center">
                     <FontAwesomeIcon
-                        class="cursor-pointer"
+                        class="cursor-pointer px-2 py-1 hover:bg-primary-hover"
                         :icon="faLinkedin"
                     />
                 </li>
-                <li>
-                    <FontAwesomeIcon class="cursor-pointer" :icon="faGithub" />
+                <li class="flex justify-center items-center">
+                    <FontAwesomeIcon
+                        class="cursor-pointer px-2 py-1 hover:bg-primary-hover"
+                        :icon="faGithub"
+                    />
                 </li>
             </ul>
             <button :class="toggleThemeClass" @click="toggleTheme">
@@ -93,6 +96,7 @@ const headerClass = computed<string>(() =>
 const toggleThemeClass = computed<string>(() =>
     normalizeClass([
         'bg-container-primary text-on-container-primary',
+        'hover:bg-container-primary-hover',
         'py-2 px-4 rounded',
         'shadow shadow-on-primary',
         'flex gap-1',
